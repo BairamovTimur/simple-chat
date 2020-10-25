@@ -4,9 +4,6 @@ import cn from 'classnames';
 export default (props) => {
   const { channels, currentChannelId } = props;
 
-  console.log(currentChannelId);
-  console.log(channels);
-
   const renderChanells = () => channels.map(({ id, name }) => {
     const activeChannel = currentChannelId === id;
     const classes = cn('nav-link btn-block mb-2 text-left btn', {

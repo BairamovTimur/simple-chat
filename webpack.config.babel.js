@@ -5,6 +5,7 @@ import path from 'path';
 // import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 module.exports = {
+  devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
   externals: {
     gon: 'gon',
