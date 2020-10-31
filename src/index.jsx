@@ -11,11 +11,11 @@ import gon from 'gon';
 import cookies from 'js-cookie';
 import faker from 'faker';
 import io from 'socket.io-client';
-
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import Rollbar from 'rollbar';
 
 import reducers, { actions } from './reducers/index';
 import App from './components/App.jsx';
@@ -24,8 +24,6 @@ import NickNameContext from './context';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-
-console.log('gon', gon);
 
 const getNickName = () => {
   const nickName = cookies.get('nickName');
@@ -39,6 +37,13 @@ const getNickName = () => {
 };
 
 const { channels, currentChannelId, messages } = gon;
+
+// eslint-disable-next-line no-unused-vars
+const rollbar = new Rollbar({
+  accessToken: '8365a808ebc74a2db114bd93f439c562',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+});
 
 const preloadedState = {
   channels,
