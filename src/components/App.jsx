@@ -1,19 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import Channels from './Channels.jsx';
 import Chat from './Chat.jsx';
 import InputForm from './InputForm.jsx';
 import MessageBox from './MessagesBox.jsx';
+import Modal from './modals/index.jsx';
 
-export default (props) => {
-  const { channels, currentChannelId } = props;
+export default () => {
+  const channels = useSelector((state) => state.channels);
 
   return (
     <div className="row h-100 pb-3">
-      <Channels channels={channels} currentChannelId={currentChannelId} />
+      <Channels channels={channels} />
       <Chat>
-        <MessageBox currentChannelId={currentChannelId} />
-        <InputForm currentChannelId={currentChannelId} />
+        <MessageBox />
+        <InputForm />
       </Chat>
+      <Modal />
     </div>
   );
 };

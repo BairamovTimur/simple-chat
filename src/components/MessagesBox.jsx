@@ -4,14 +4,13 @@ import { useSelector } from 'react-redux';
 const getMessageChannel = (channelId, messages) => messages
   .filter((message) => message.channelId === channelId);
 
-export default (props) => {
-  const { currentChannelId } = props;
-
+export default () => {
+  const currentChannelId = useSelector((state) => state.currentChannelId);
   const messages = useSelector((state) => getMessageChannel(currentChannelId, state.messages));
 
   const renderMessages = () => messages.map(({ id, message, nickName }) => (
     <div key={id}>
-      <b>{`${nickName}:`}</b>
+      <b>{`${nickName}: `}</b>
       {message}
     </div>
   ));

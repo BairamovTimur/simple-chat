@@ -4,29 +4,35 @@ import React,
   useRef,
   useEffect,
 } from 'react';
-import { useDispatch } from 'react-redux';
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormControl,
+  InputGroup,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 
 import { asyncActions } from '../reducers/index';
 import NickNameContext from '../context';
 
-export default (props) => {
-  const { currentChannelId } = props;
+export default () => {
+  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const modalType = useSelector((state) => state.modal);
   const dispatch = useDispatch();
-
   const nickName = useContext(NickNameContext);
-
   const inputRef = useRef();
 
   useEffect(() => {
     inputRef.current.focus();
-  });
+  }, [modalType, currentChannelId]);
 
   const handleSubmit = async (values, { setErrors, resetForm }) => {
     try {
       const messageText = values.body;
-      const resultAction = await dispatch(asyncActions.postMessage({
+      const resultAction = await dispatch(asyncActions.addMessage({
         channelId: currentChannelId,
         message: messageText,
         nickName,
@@ -45,15 +51,26 @@ export default (props) => {
 
   return (
     <div className="mt-auto">
-      <form noValidate="" className="" onSubmit={formik.handleSubmit}>
-        <div className="form-group">
-          <div className="input-group">
-            <input ref={inputRef} name="body" aria-label="body" className="mr-2 form-control" disabled={formik.isSubmitting} value={formik.values.body} onChange={formik.handleChange} />
-            <button aria-label="submit" type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>Submit</button>
-            <div className="d-block invalid-feedback">{formik.errors.inputRef}</div>
-          </div>
-        </div>
-      </form>
+      <Form onSubmit={formik.handleSubmit}>
+        <FormGroup>
+          <InputGroup>
+            <FormControl
+              name="body"
+              ref={inputRef}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.body}
+              disabled={formik.isSubmitting}
+            />
+            <div className="d-flex justify-content-end">
+              <Button disabled={formik.isSubmitting} type="submit" variant="primary">Submit</Button>
+            </div>
+            <Form.Control.Feedback type="invalid" className="d-block">
+              {formik.errors.inputRef}
+            </Form.Control.Feedback>
+          </InputGroup>
+        </FormGroup>
+      </Form>
     </div>
   );
 };

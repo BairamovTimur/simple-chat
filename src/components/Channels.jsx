@@ -1,21 +1,51 @@
 import React from 'react';
-import cn from 'classnames';
+import { useDispatch, useSelector } from 'react-redux'; import {
+  Button,
+  DropdownButton,
+  Dropdown,
+} from 'react-bootstrap';
+
+import { actions } from '../reducers/index';
 
 export default (props) => {
-  const { channels, currentChannelId } = props;
+  const { channels } = props;
+  const dispatch = useDispatch();
 
-  const renderChanells = () => channels.map(({ id, name }) => {
+  const currentChannelId = useSelector((state) => state.currentChannelId);
+
+  const handleClickChannel = (id) => () => {
+    dispatch(actions.changeChannel(id));
+  };
+
+  const handleClickAddChannel = () => {
+    dispatch(actions.showModal({ modalType: 'add', channelId: null }));
+  };
+
+  const handleClickRemoveChannel = (channelId) => () => {
+    dispatch(actions.showModal({ modalType: 'remove', channelId }));
+  };
+
+  const handleClickRenameChannel = (channelId, channelName) => () => {
+    dispatch(actions.showModal({ modalType: 'rename', channelId, channelName }));
+  };
+
+  const renderButtonSetting = (variantButton, id, name) => (
+    <DropdownButton title="" id="bg-nested-dropdown" variant={variantButton}>
+      <Dropdown.Item onClick={handleClickRemoveChannel(id)}>Remove</Dropdown.Item>
+      <Dropdown.Item onClick={handleClickRenameChannel(id, name)}>Rename</Dropdown.Item>
+    </DropdownButton>
+  );
+
+  const renderChannels = () => channels.map(({ id, name, removable }) => {
     const activeChannel = currentChannelId === id;
-    const classes = cn('nav-link btn-block mb-2 text-left btn', {
-      'btn-primary': activeChannel,
-      'btn-light': !activeChannel,
-    });
+    const variantButton = activeChannel ? 'primary' : 'light';
 
     return (
       <li className="nav-item" key={id}>
-        <button type="button" className={classes}>
-          {name}
-        </button>
+        <div role="group" className="d-flex mb-2 dropdown btn-group">
+          <Button type="button" variant={variantButton} onClick={handleClickChannel(id)}>{name}</Button>
+          {removable && renderButtonSetting(variantButton, id, name)}
+        </div>
       </li>
     );
   });
@@ -24,11 +54,9 @@ export default (props) => {
     <div className="col-3 border-right">
       <div className="d-flex mb-2">
         <span>Channels</span>
-        <button type="button" className="ml-auto p-0 btn btn-link">
-          +
-        </button>
+        <Button type="button" variant="link" className="ml-auto p-0 btn" onClick={handleClickAddChannel}>+</Button>
       </div>
-      {channels && <ul>{renderChanells()}</ul>}
+      {channels && <ul className="nav flex-column nav-pills nav-fill">{renderChannels()}</ul>}
     </div>
   );
 };

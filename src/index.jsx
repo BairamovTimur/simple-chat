@@ -38,11 +38,14 @@ const getNickName = () => {
   return newNick;
 };
 
-// const { channels, currentChannelId, messages } = gon;
+const { channels, currentChannelId, messages } = gon;
 
-const { messages } = gon;
-
-const preloadedState = { messages };
+const preloadedState = {
+  channels,
+  currentChannelId,
+  messages,
+  modal: { modalType: null, channelId: null, channelName: null },
+};
 
 const nickName = getNickName();
 
@@ -56,7 +59,6 @@ const store = configureStore({
   reducer: reducers,
   middleware,
   devTools: process.env.NODE_ENV !== 'production',
-  // @ts-ignore
   preloadedState,
 });
 
@@ -68,10 +70,22 @@ socket.on('newMessage', (data) => {
   dispatch(actions.addMessage(data));
 });
 
+socket.on('newChannel', (data) => {
+  dispatch(actions.addChannel(data));
+});
+
+socket.on('removeChannel', (data) => {
+  dispatch(actions.removeChannel(data));
+});
+
+socket.on('renameChannel', (data) => {
+  dispatch(actions.renameChannel(data));
+});
+
 render(
   <Provider store={store}>
     <NickNameContext.Provider value={nickName}>
-      <App channels={gon.channels} currentChannelId={gon.currentChannelId} />
+      <App />
     </NickNameContext.Provider>
   </Provider>,
   document.getElementById('chat'),
