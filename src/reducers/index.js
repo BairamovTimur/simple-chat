@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
 
 import messages, { messagesActions, addMessage } from './messages';
-import channels, { channelsActions, addChannel, removeChannel, renameChannel } from './channels';
+import channels, {
+  channelsActions,
+  addChannel,
+  removeChannel,
+  renameChannel,
+} from './channels';
 import currentChannelId, { currentChannelIdActions } from './currentChannelId';
 import modal, { modalActions } from './modal';
 
