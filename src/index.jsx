@@ -16,6 +16,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import Rollbar from 'rollbar';
+import validator from 'validator';
 
 import reducers, { actions } from './reducers/index';
 import App from './components/App.jsx';
@@ -36,7 +37,19 @@ const getNickName = () => {
   return newNick;
 };
 
-const { channels, currentChannelId, messages } = gon;
+const { currentChannelId } = gon;
+
+const channels = gon.channels.map((channel) => {
+  const channelsConvert = { ...channel };
+  channelsConvert.name = validator.unescape(channel.name);
+  return channelsConvert;
+});
+
+const messages = gon.messages.map((item) => {
+  const itemConvert = { ...item };
+  itemConvert.message = validator.unescape(item.message);
+  return itemConvert;
+});
 
 // eslint-disable-next-line no-unused-vars
 const rollbar = new Rollbar({

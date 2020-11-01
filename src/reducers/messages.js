@@ -1,17 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { uniqueId } from 'lodash';
+import validator from 'validator';
+
 import routes from '../routes';
 import { channelsActions } from './channels';
 
 export const addMessage = createAsyncThunk(
   'AddingMessageStatus',
   async ({ channelId, message, nickName }) => {
+    const pureMessage = validator.escape(message);
     const response = await axios.post(routes.channelMessagesPath(channelId), {
       data: {
         attributes: {
           channelId,
-          message,
+          message: pureMessage,
           nickName,
           id: uniqueId(),
         },
@@ -28,6 +31,7 @@ const messagesSlice = createSlice({
   reducers: {
     addMessage(state, { payload: { data } }) {
       const { attributes } = data;
+      attributes.message = validator.unescape(attributes.message);
       state.push(attributes);
     },
   },

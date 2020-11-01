@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'; import {
   DropdownButton,
   Dropdown,
 } from 'react-bootstrap';
+import validator from 'validator';
 
 import { actions } from '../reducers/index';
 
@@ -43,7 +44,7 @@ export default (props) => {
     return (
       <li className="nav-item" key={id}>
         <div role="group" className="d-flex mb-2 dropdown btn-group">
-          <Button type="button" variant={variantButton} onClick={handleClickChannel(id)}>{name}</Button>
+          <Button type="button" variant={variantButton} onClick={handleClickChannel(id)}>{validator.unescape(name)}</Button>
           {removable && renderButtonSetting(variantButton, id, name)}
         </div>
       </li>
