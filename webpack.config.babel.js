@@ -1,8 +1,5 @@
 // @ts-check
-
 import path from 'path';
-// import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-// import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 module.exports = {
   devtool: 'source-map',
@@ -16,24 +13,14 @@ module.exports = {
   output: {
     path: `${__dirname}/dist/public`,
   },
-  // entry: {
-  //  app: './src/index.js',
-  // },
+
   devServer: {
     contentBase: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
     contentBasePublicPath: '/assets/',
     compress: true,
-    // hot: true,
   },
-  plugins: [
-    // new MiniCssExtractPlugin(),
-    // new CleanWebpackPlugin(),
-    // new HtmlWebpackPlugin({
-    //  template: 'index.html',
-    //  title: 'Hot Module Replacement',
-    // }),
-  ],
+  plugins: [],
   module: {
     rules: [
       {

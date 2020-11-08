@@ -6,12 +6,12 @@ import routes from '../routes';
 
 export const addChannel = createAsyncThunk(
   'AddingChannelStatus',
-  async (name) => {
-    const pureName = validator.escape(name);
+  async ({ channelName }) => {
+    const name = validator.escape(channelName);
     const response = await axios.post(routes.channelsPath(), {
       data: {
         attributes: {
-          name: pureName,
+          name,
         },
       },
     });
@@ -21,7 +21,7 @@ export const addChannel = createAsyncThunk(
 
 export const removeChannel = createAsyncThunk(
   'DeletedChannelStatus',
-  async (channelId) => {
+  async ({ channelId }) => {
     const response = await axios.delete(routes.channelPath(channelId));
     return response.data;
   },
@@ -30,11 +30,11 @@ export const removeChannel = createAsyncThunk(
 export const renameChannel = createAsyncThunk(
   'RenamedChannelStatus',
   async ({ channelId, channelName }) => {
-    const pureName = validator.escape(channelName);
+    const name = validator.escape(channelName);
     const response = await axios.patch(routes.channelPath(channelId), {
       data: {
         attributes: {
-          name: pureName,
+          name,
         },
       },
     });

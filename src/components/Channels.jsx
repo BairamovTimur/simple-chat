@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'; import {
   DropdownButton,
   Dropdown,
 } from 'react-bootstrap';
+import { isEmpty } from 'lodash';
 
-import { actions } from '../reducers/index';
+import { actions } from '../slices/index';
 
-export default (props) => {
-  const { channels } = props;
+const Channels = () => {
+  const channels = useSelector((state) => state.channels);
   const dispatch = useDispatch();
 
   const currentChannelId = useSelector((state) => state.currentChannelId);
@@ -18,7 +19,7 @@ export default (props) => {
   };
 
   const handleClickAddChannel = () => {
-    dispatch(actions.showModal({ modalType: 'add', channelId: null }));
+    dispatch(actions.showModal({ modalType: 'add' }));
   };
 
   const handleClickRemoveChannel = (channelId) => () => {
@@ -29,7 +30,7 @@ export default (props) => {
     dispatch(actions.showModal({ modalType: 'rename', channelId, channelName }));
   };
 
-  const renderButtonSetting = (variantButton, id, name) => (
+  const renderDropdownButton = (variantButton, id, name) => (
     <DropdownButton title="" id="bg-nested-dropdown" variant={variantButton}>
       <Dropdown.Item onClick={handleClickRemoveChannel(id)}>Remove</Dropdown.Item>
       <Dropdown.Item onClick={handleClickRenameChannel(id, name)}>Rename</Dropdown.Item>
@@ -44,7 +45,7 @@ export default (props) => {
       <li className="nav-item" key={id}>
         <div role="group" className="d-flex mb-2 dropdown btn-group">
           <Button type="button" variant={variantButton} onClick={handleClickChannel(id)}>{name}</Button>
-          {removable && renderButtonSetting(variantButton, id, name)}
+          {removable && renderDropdownButton(variantButton, id, name)}
         </div>
       </li>
     );
@@ -56,7 +57,9 @@ export default (props) => {
         <span>Channels</span>
         <Button type="button" variant="link" className="ml-auto p-0 btn" onClick={handleClickAddChannel}>+</Button>
       </div>
-      {channels && <ul className="nav flex-column nav-pills nav-fill">{renderChannels()}</ul>}
+      {!isEmpty(channels) && <ul className="nav flex-column nav-pills nav-fill">{renderChannels()}</ul>}
     </div>
   );
 };
+
+export default Channels;

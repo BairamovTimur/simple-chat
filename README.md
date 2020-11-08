@@ -22,5 +22,18 @@ $ make install
 $ make start
 # open http://localhost:5000
 ```
+
+# Slack-chat
+### Simple analog of Slack chat
+
+Use technology:
+- React
+- Redux Toolkit
+- Redux Forms
+- Bootsrap on React
+- Websockets
+- Ajax, REST
+- Deploy (heroku.com)
+
 # [Demo](https://enigmatic-spire-02573.herokuapp.com/)
 
