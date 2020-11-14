@@ -7,7 +7,12 @@ import {
 
 const modalSlice = createSlice({
   name: 'modal',
-  initialState: {},
+  initialState: {
+    modalType: null,
+    channelId: null,
+    channelName: '',
+    errorMessage: '',
+  },
   reducers: {
     showModal(state, { payload }) {
       const { modalType, channelId, channelName } = payload;
@@ -22,7 +27,7 @@ const modalSlice = createSlice({
       return {
         modalType: null,
         channelId: null,
-        channelName: null,
+        channelName: '',
         errorMessage: '',
       };
     },
@@ -35,7 +40,7 @@ const modalSlice = createSlice({
     [addChannel.fulfilled]: () => ({
       modalType: null,
       channelId: null,
-      channelName: null,
+      channelName: '',
       errorMessage: '',
     }),
     [addChannel.rejected]: (state, { error, meta }) => ({
@@ -49,7 +54,7 @@ const modalSlice = createSlice({
     [removeChannel.fulfilled]: () => ({
       modalType: null,
       channelId: null,
-      channelName: null,
+      channelName: '',
       errorMessage: '',
     }),
     [removeChannel.rejected]: (state, { error }) => ({
@@ -63,7 +68,7 @@ const modalSlice = createSlice({
     [renameChannel.fulfilled]: () => ({
       modalType: null,
       channelId: null,
-      channelName: null,
+      channelName: '',
       errorMessage: '',
     }),
     [renameChannel.rejected]: (state, { error, meta }) => ({

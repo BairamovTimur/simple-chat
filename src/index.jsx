@@ -2,6 +2,7 @@
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import io from 'socket.io-client';
 // @ts-ignore
 import gon from 'gon';
 
@@ -11,4 +12,7 @@ import init from './init.jsx';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-init(gon);
+
+const socket = io(document.URL, { transports: ['websocket'] });
+
+init(gon, socket);

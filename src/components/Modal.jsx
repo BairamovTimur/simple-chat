@@ -8,22 +8,21 @@ import {
   FormGroup,
   FormControl,
 } from 'react-bootstrap';
-import validator from 'validator';
 import * as yup from 'yup';
 
-import { actions, asyncActions } from '../../slices/index';
+import { actions, asyncActions } from '../slices/index';
 
-const baseSchema = yup.string()
+const getValidateSchema = (channelsName) => yup.string()
   .min(3)
   .max(20)
-  .matches(/^[\w\d\sА-Яа-я]+$/, 'Only numbers, letters, and a space are allowed in the channel name');
+  .matches(/^[\w\d\s]+$/, 'Only numbers, letters, and a space are allowed in the channel name')
+  .notOneOf(channelsName, 'Must be unique');
 
 const validateChannelName = (channelName, channels) => {
-  const name = validator.unescape(channelName);
   const channelsName = channels.map((channel) => channel.name);
-  const actualSchema = baseSchema.notOneOf(channelsName, 'Must be unique');
+  const validateSchema = getValidateSchema(channelsName);
   try {
-    actualSchema.validateSync(name);
+    validateSchema.validateSync(channelName);
     return null;
   } catch (e) {
     return e.message;
@@ -40,7 +39,7 @@ const asyncActionsMapping = {
 
 const handleSubmit = (dispatch, modalType, channelId, channels) => async (values,
   { setErrors }) => {
-  const channelName = values.body;
+  const { channelName } = values;
 
   if (channelName) {
     const error = validateChannelName(channelName, channels);
@@ -62,7 +61,7 @@ const Add = () => {
 
   const formik = useFormik({
     onSubmit: handleSubmit(dispatch, modalType, null, channels),
-    initialValues: { body: channelName },
+    initialValues: { channelName },
   });
 
   useEffect(() => {
@@ -83,8 +82,8 @@ const Add = () => {
               ref={inputRef}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.body}
-              name="body"
+              value={formik.values.channelName}
+              name="channelName"
             />
           </FormGroup>
           <Form.Control.Feedback type="invalid" className="d-block">
@@ -107,7 +106,7 @@ const Remove = () => {
 
   const formik = useFormik({
     onSubmit: handleSubmit(dispatch, modalType, channelId),
-    initialValues: { body: '' },
+    initialValues: { channelName: '' },
   });
 
   return (
@@ -146,7 +145,7 @@ const Rename = () => {
 
   const formik = useFormik({
     onSubmit: handleSubmit(dispatch, modalType, channelId, channels),
-    initialValues: { body: channelName },
+    initialValues: { channelName },
   });
 
   useEffect(() => {
@@ -167,8 +166,8 @@ const Rename = () => {
               ref={inputRef}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.body}
-              name="body"
+              value={formik.values.channelName}
+              name="channelName"
             />
           </FormGroup>
           <Form.Control.Feedback type="invalid" className="d-block">

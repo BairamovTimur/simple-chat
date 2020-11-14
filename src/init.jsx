@@ -1,7 +1,6 @@
 // @ts-ignore
 import cookies from 'js-cookie';
 import faker from 'faker';
-import io from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -13,19 +12,8 @@ import reducers, { actions } from './slices/index';
 import App from './components/App.jsx';
 import NickNameContext from './context';
 
-export default (gon) => {
-  const getNickName = () => {
-    const nickName = cookies.get('nickName');
-    if (nickName) {
-      return nickName;
-    }
-
-    return faker.name.findName();
-  };
-
-  const setNickNameInCookies = (nickName) => {
-    cookies.set('nickName', nickName);
-  };
+export default (gon, socket) => {
+  const getNickName = () => (cookies.get('nickName') ? cookies.get('nickName') : faker.name.findName());
 
   const { currentChannelId } = gon;
 
@@ -53,18 +41,16 @@ export default (gon) => {
     modal: {
       modalType: null,
       channelId: null,
-      channelName: null,
+      channelName: '',
       errorMessage: '',
     },
-    loaded: false,
+    loaded: 'nonLoaded',
   };
 
   const nickName = getNickName();
-  setNickNameInCookies(nickName);
+  cookies.set('nickName', nickName);
 
-  const middleware = getDefaultMiddleware({
-    thunk: true,
-  });
+  const middleware = getDefaultMiddleware();
 
   const store = configureStore({
     reducer: reducers,
@@ -73,8 +59,6 @@ export default (gon) => {
   });
 
   const { dispatch } = store;
-
-  const socket = io(document.URL, { transports: ['websocket'] });
 
   socket.on('newMessage', (data) => {
     dispatch(actions.addMessage(data));

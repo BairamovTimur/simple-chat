@@ -7,25 +7,25 @@ import {
 
 const loadedSlice = createSlice({
   name: 'loading',
-  initialState: false,
+  initialState: 'nonLoaded',
   reducers: {
     nonloaded() {
-      return false;
+      return 'nonLoaded';
     },
     loaded() {
-      return true;
+      return 'loaded';
     },
   },
   extraReducers: {
-    [addChannel.pending]: () => false,
-    [addChannel.fulfilled]: () => true,
-    [addChannel.rejected]: () => true,
-    [removeChannel.pending]: () => false,
-    [removeChannel.fulfilled]: () => true,
-    [removeChannel.rejected]: () => true,
-    [renameChannel.pending]: () => false,
-    [renameChannel.fulfilled]: () => true,
-    [renameChannel.rejected]: () => true,
+    [addChannel.pending]: () => 'nonLoaded',
+    [addChannel.fulfilled]: () => 'loaded',
+    [addChannel.rejected]: () => 'loaded',
+    [removeChannel.pending]: () => 'nonLoaded',
+    [removeChannel.fulfilled]: () => 'loaded',
+    [removeChannel.rejected]: () => 'loaded',
+    [renameChannel.pending]: () => 'nonLoaded',
+    [renameChannel.fulfilled]: () => 'loaded',
+    [renameChannel.rejected]: () => 'loaded',
   },
 });
 
