@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { channelsActions } from './channels';
+import { channelsActions, addChannel } from './channels';
 
 const currentChannelIdSlice = createSlice({
   name: 'currentChannelId',
@@ -15,10 +15,7 @@ const currentChannelIdSlice = createSlice({
       const initState = 1;
       return state === id ? initState : state;
     },
-    [channelsActions.addChannel]: (state, { payload: { data } }) => {
-      const { attributes } = data;
-      return attributes.id;
-    },
+    [addChannel.fulfilled]: (state, { payload: { data: { id } } }) => id,
   },
 });
 
