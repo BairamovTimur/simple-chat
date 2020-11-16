@@ -35,5 +35,5 @@ Use technology:
 - Ajax, REST
 - Deploy (heroku.com)
 
-# [Demo](https://enigmatic-spire-02573.herokuapp.com/)
+# [Demo](https://i-slack-bairamovtm.herokuapp.com/)
 

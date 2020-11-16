@@ -2,10 +2,8 @@
 import cookies from 'js-cookie';
 import faker from 'faker';
 import React from 'react';
-import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import Rollbar from 'rollbar';
 import validator from 'validator';
 
 import reducers, { actions } from './slices/index';
@@ -26,13 +24,6 @@ export default (gon, socket) => {
     ...item,
     message: validator.unescape(item.message),
   }));
-
-  // eslint-disable-next-line no-unused-vars
-  const rollbar = new Rollbar({
-    accessToken: '8365a808ebc74a2db114bd93f439c562',
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-  });
 
   const preloadedState = {
     channels,
@@ -78,12 +69,11 @@ export default (gon, socket) => {
 
   dispatch(actions.loaded());
 
-  render(
+  return (
     <Provider store={store}>
       <NickNameContext.Provider value={nickName}>
         <App />
       </NickNameContext.Provider>
-    </Provider>,
-    document.getElementById('chat'),
+    </Provider>
   );
 };
