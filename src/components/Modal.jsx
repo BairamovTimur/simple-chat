@@ -15,7 +15,7 @@ import { actions, asyncActions } from '../slices/index';
 const getValidateSchema = (channelsName) => yup.string()
   .min(3)
   .max(20)
-  .matches(/^[\w\d\s]+$/, 'Only numbers, letters, and a space are allowed in the channel name')
+  .matches(/^[\w\d]+$/, 'Only numbers, letters, and a space are allowed in the channel name')
   .notOneOf(channelsName, 'Must be unique');
 
 const validateChannelName = (channelName, channels) => {
@@ -69,7 +69,7 @@ const Add = () => {
   }, []);
 
   return (
-    <Modal show onHide={onHide(dispatch)}>
+    <>
       <Modal.Header closeButton onHide={onHide(dispatch)}>
         <Modal.Title>Add channel</Modal.Title>
       </Modal.Header>
@@ -96,7 +96,7 @@ const Add = () => {
           </div>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
@@ -110,7 +110,7 @@ const Remove = () => {
   });
 
   return (
-    <Modal show onHide={onHide(dispatch)}>
+    <>
       <Modal.Header closeButton onHide={onHide(dispatch)}>
         <Modal.Title>Remove channel</Modal.Title>
       </Modal.Header>
@@ -127,7 +127,7 @@ const Remove = () => {
           </div>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
@@ -153,7 +153,7 @@ const Rename = () => {
   }, []);
 
   return (
-    <Modal show onHide={onHide(dispatch)}>
+    <>
       <Modal.Header closeButton onHide={onHide(dispatch)}>
         <Modal.Title>Rename channel</Modal.Title>
       </Modal.Header>
@@ -180,7 +180,7 @@ const Rename = () => {
           </div>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
@@ -192,6 +192,7 @@ const mappingModalComponent = {
 
 export default () => {
   const modalType = useSelector((state) => state.modal.modalType);
+  const dispatch = useDispatch();
 
   if (!modalType) {
     return null;
@@ -200,6 +201,8 @@ export default () => {
   const Component = mappingModalComponent[modalType];
 
   return (
-    <Component />
+    <Modal show onHide={onHide(dispatch)}>
+      <Component />
+    </Modal>
   );
 };

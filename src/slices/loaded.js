@@ -9,9 +9,6 @@ const loadedSlice = createSlice({
   name: 'loading',
   initialState: 'nonLoaded',
   reducers: {
-    nonloaded() {
-      return 'nonLoaded';
-    },
     loaded() {
       return 'loaded';
     },

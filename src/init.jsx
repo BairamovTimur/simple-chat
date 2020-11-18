@@ -11,7 +11,8 @@ import App from './components/App.jsx';
 import NickNameContext from './context';
 
 export default (gon, socket) => {
-  const getNickName = () => (cookies.get('nickName') ? cookies.get('nickName') : faker.name.findName());
+  const nickName = cookies.get('nickName') || faker.name.findName();
+  cookies.set('nickName', nickName);
 
   const { currentChannelId } = gon;
 
@@ -29,17 +30,8 @@ export default (gon, socket) => {
     channels,
     currentChannelId,
     messages,
-    modal: {
-      modalType: null,
-      channelId: null,
-      channelName: '',
-      errorMessage: '',
-    },
     loaded: 'nonLoaded',
   };
-
-  const nickName = getNickName();
-  cookies.set('nickName', nickName);
 
   const middleware = getDefaultMiddleware();
 
