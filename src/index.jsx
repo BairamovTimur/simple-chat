@@ -17,9 +17,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 const { rollbarToken } = gon;
 
+const enabledRollbar = (process.env.NODE_ENV === 'production');
 // eslint-disable-next-line no-unused-vars
 const rollbar = new Rollbar({
-  enabled: (process.env.NODE_ENV === 'production'),
+  enabled: enabledRollbar,
   accessToken: rollbarToken,
   captureUncaught: true,
   captureUnhandledRejections: true,
