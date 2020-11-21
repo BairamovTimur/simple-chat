@@ -41,7 +41,6 @@ const InputForm = () => {
             nickName,
             id: uniqueId(),
           },
-          id: channelId,
         },
       });
       resetForm();
@@ -63,6 +62,7 @@ const InputForm = () => {
         <FormGroup>
           <InputGroup>
             <FormControl
+              required
               name="body"
               ref={inputRef}
               onChange={formik.handleChange}

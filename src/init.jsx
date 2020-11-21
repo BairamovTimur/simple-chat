@@ -59,8 +59,6 @@ export default (gon, socket) => {
     dispatch(actions.renameChannel(data));
   });
 
-  dispatch(actions.loaded());
-
   return (
     <Provider store={store}>
       <NickNameContext.Provider value={nickName}>

@@ -15,14 +15,15 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-if (process.env.NODE_ENV === 'production') {
-  // eslint-disable-next-line no-unused-vars
-  const rollbar = new Rollbar({
-    accessToken: '8365a808ebc74a2db114bd93f439c562',
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-  });
-}
+const { rollbarToken } = gon;
+
+// eslint-disable-next-line no-unused-vars
+const rollbar = new Rollbar({
+  enabled: (process.env.NODE_ENV === 'production'),
+  accessToken: rollbarToken,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+});
 
 const socket = io(document.URL, { transports: ['websocket'] });
 

@@ -12,22 +12,13 @@ import * as yup from 'yup';
 
 import { actions, asyncActions } from '../slices/index';
 
-const getValidateSchema = (channelsName) => yup.string()
-  .min(3)
-  .max(20)
-  .matches(/^[\w\d]+$/, 'Only numbers, letters, and a space are allowed in the channel name')
-  .notOneOf(channelsName, 'Must be unique');
-
-const validateChannelName = (channelName, channels) => {
-  const channelsName = channels.map((channel) => channel.name);
-  const validateSchema = getValidateSchema(channelsName);
-  try {
-    validateSchema.validateSync(channelName);
-    return null;
-  } catch (e) {
-    return e.message;
-  }
-};
+const getValidateSchema = (channelsName) => yup.object().shape({
+  channelName: yup.string()
+    .min(3)
+    .max(20)
+    .matches(/^[\w\d]+$/, 'Only numbers, letters are allowed in the channel name')
+    .notOneOf(channelsName, 'Must be unique'),
+});
 
 const onHide = (dispatch) => () => dispatch(actions.hideModal());
 
@@ -37,20 +28,11 @@ const asyncActionsMapping = {
   remove: asyncActions.removeChannel,
 };
 
-const handleSubmit = (dispatch, modalType, channelId, channels) => async (values,
-  { setErrors }) => {
+const handleSubmit = (dispatch, modalType, channelId) => async (values) => {
   const { channelName } = values;
 
-  if (channelName) {
-    const error = validateChannelName(channelName, channels);
-
-    if (error) {
-      setErrors({ inputRef: error });
-      return;
-    }
-  }
-
-  dispatch(asyncActionsMapping[modalType]({ channelName, channelId }));
+  const asyncAction = asyncActionsMapping[modalType];
+  dispatch(asyncAction({ channelName, channelId }));
 };
 
 const Add = () => {
@@ -59,9 +41,13 @@ const Add = () => {
   const dispatch = useDispatch();
   const inputRef = useRef();
 
+  const channelsNames = channels.map((channel) => channel.name);
+  const validateSchema = getValidateSchema(channelsNames);
+
   const formik = useFormik({
-    onSubmit: handleSubmit(dispatch, modalType, null, channels),
+    onSubmit: handleSubmit(dispatch, modalType, null),
     initialValues: { channelName },
+    validationSchema: validateSchema,
   });
 
   useEffect(() => {
@@ -87,7 +73,7 @@ const Add = () => {
             />
           </FormGroup>
           <Form.Control.Feedback type="invalid" className="d-block">
-            {formik.errors.inputRef}
+            {formik.errors.channelName}
             {errorMessage}
           </Form.Control.Feedback>
           <div className="d-flex justify-content-end">
@@ -118,7 +104,6 @@ const Remove = () => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Control.Feedback type="invalid" className="d-block">
-            {formik.errors.inputRef}
             {errorMessage}
           </Form.Control.Feedback>
           <div className="d-flex justify-content-between">
@@ -143,9 +128,13 @@ const Rename = () => {
 
   const inputRef = useRef();
 
+  const channelsNames = channels.map((channel) => channel.name);
+  const validateSchema = getValidateSchema(channelsNames);
+
   const formik = useFormik({
-    onSubmit: handleSubmit(dispatch, modalType, channelId, channels),
+    onSubmit: handleSubmit(dispatch, modalType, channelId),
     initialValues: { channelName },
+    validationSchema: validateSchema,
   });
 
   useEffect(() => {
@@ -171,7 +160,7 @@ const Rename = () => {
             />
           </FormGroup>
           <Form.Control.Feedback type="invalid" className="d-block">
-            {formik.errors.inputRef}
+            {formik.errors.channelName}
             {errorMessage}
           </Form.Control.Feedback>
           <div className="d-flex justify-content-end">

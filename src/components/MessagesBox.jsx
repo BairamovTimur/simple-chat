@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { scroller } from 'react-scroll';
 
 const getMessageChannel = (channelId, messages) => messages
   .filter((message) => message.channelId === channelId);
@@ -18,10 +19,13 @@ const MessagesBox = () => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const messages = useSelector((state) => getMessageChannel(currentChannelId, state.messages));
 
-  const inputRef = useRef();
-
   useEffect(() => {
-    inputRef.current.scrollIntoView();
+    scroller.scrollTo('element-for-scrolling', {
+      duration: 800,
+      delay: 0,
+      smooth: true,
+      containerId: 'messages-box',
+    });
   }, [messages]);
 
   return (
@@ -29,7 +33,7 @@ const MessagesBox = () => {
       {messages.map(({ id, message, nickName }) => (
         <Message key={id} message={message} nickName={nickName} />
       ))}
-      <div ref={inputRef} />
+      <div name="element-for-scrolling" />
     </div>
   );
 };

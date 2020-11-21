@@ -32,8 +32,7 @@ const Channel = ({ channelData }) => {
     </DropdownButton>
   );
 
-  const activeChannel = currentChannelId === id;
-  const variantButton = activeChannel ? 'primary' : 'light';
+  const variantButton = currentChannelId === id ? 'primary' : 'light';
 
   return (
     <li className="nav-item" key={id}>

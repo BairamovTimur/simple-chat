@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git@github.com:hexlet-components/projects-frontend-l4-server.git"
   },
-  "author": "Kirill Mokevnin",
+  "author": "Timur Bairamov",
   "license": "ISC",
   "homepage": "",
   "dependencies": {
@@ -55,6 +55,7 @@
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
+    "react-scroll": "^1.8.1",
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.7",
     "rollbar": "^2.19.4",

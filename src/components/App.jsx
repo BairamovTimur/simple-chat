@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { isEmpty } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -53,11 +53,16 @@ const Loader = () => (
 );
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const loaded = useSelector((state) => state.loaded);
+
+  useEffect(() => {
+    dispatch(actions.loaded());
+  }, []);
 
   return (
     <>
-      <div className="container w-100"><h1>i-Slack</h1></div>
       <div className="container h-100 overflow-hidden">
         <div className="h-100">
           {loaded === 'loaded' ? <Chat /> : <Loader />}
