@@ -15,7 +15,6 @@ import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import validator from 'validator';
 import axios from 'axios';
-import { uniqueId } from 'lodash';
 import routes from '../routes';
 import NickNameContext from '../context';
 
@@ -33,13 +32,13 @@ const InputForm = () => {
     try {
       const messageText = values.body;
       const message = validator.escape(messageText);
+      console.log(routes.channelMessagesPath(channelId));
       await axios.post(routes.channelMessagesPath(channelId), {
         data: {
           attributes: {
             channelId,
             message,
             nickName,
-            id: uniqueId(),
           },
         },
       });
