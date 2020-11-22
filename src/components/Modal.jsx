@@ -30,7 +30,6 @@ const asyncActionsMapping = {
 
 const handleSubmit = (dispatch, modalType, channelId) => async (values) => {
   const { channelName } = values;
-
   const asyncAction = asyncActionsMapping[modalType];
   dispatch(asyncAction({ channelName, channelId }));
 };
@@ -70,6 +69,7 @@ const Add = () => {
               onBlur={formik.handleBlur}
               value={formik.values.channelName}
               name="channelName"
+              aria-label="channelName"
             />
           </FormGroup>
           <Form.Control.Feedback type="invalid" className="d-block">
@@ -78,7 +78,7 @@ const Add = () => {
           </Form.Control.Feedback>
           <div className="d-flex justify-content-end">
             <Button disabled={formik.isSubmitting} type="button" variant="secondary" className="mr-2" onClick={onHide(dispatch)}>Cancel</Button>
-            <Button disabled={formik.isSubmitting} type="submit" variant="primary">Submit</Button>
+            <Button disabled={formik.isSubmitting} type="submit" variant="primary" aria-label="channelSubmit">Submit</Button>
           </div>
         </Form>
       </Modal.Body>
