@@ -23,7 +23,6 @@ beforeEach(async () => {
   };
 
   socket = new MockedSocket();
-
   const vDom = await init(gon, socket.socketClient);
   render(vDom);
   elements.input = screen.getByRole('textbox', { name: 'body' });
@@ -31,8 +30,8 @@ beforeEach(async () => {
 });
 
 test('app', async () => {
-  const scope = nock('http://localhost:80/api/v1')
-    .post('/channels/1/messages', matches({ data: { attributes: { message: 'Hello World!' } } }))
+  const scope = nock('http://localhost')
+    .post('/api/v1/channels/1/messages', matches({ data: { attributes: { message: 'Hello World!' } } }))
     .reply(200, {});
 
   const message = {

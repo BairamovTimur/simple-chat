@@ -32,7 +32,6 @@ const InputForm = () => {
     try {
       const messageText = values.body;
       const message = validator.escape(messageText);
-      console.log(routes.channelMessagesPath(channelId));
       await axios.post(routes.channelMessagesPath(channelId), {
         data: {
           attributes: {
