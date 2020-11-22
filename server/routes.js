@@ -7,7 +7,6 @@ const getNextId = () => Number(_.uniqueId());
 const buildState = (defaultState) => {
   const generalChannelId = getNextId();
   const randomChannelId = getNextId();
-  const rollbarToken = process.env.ROLLBAR_TOKEN || '';
 
   const state = {
     channels: [
@@ -16,7 +15,6 @@ const buildState = (defaultState) => {
     ],
     messages: [],
     currentChannelId: generalChannelId,
-    rollbarToken,
   };
 
   if (defaultState.messages) {

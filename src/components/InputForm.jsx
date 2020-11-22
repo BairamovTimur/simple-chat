@@ -64,6 +64,7 @@ const InputForm = () => {
             <FormControl
               required
               name="body"
+              aria-label="body"
               ref={inputRef}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
