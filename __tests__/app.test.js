@@ -25,6 +25,8 @@ beforeEach(async () => {
 
   socket = new MockedSocket();
   axios.defaults.baseURL = 'http://localhost:80';
+  // eslint-disable-next-line global-require
+  axios.defaults.adapter = require('axios/lib/adapters/http');
   const vDom = await init(gon, socket.socketClient);
   render(vDom);
   elements.input = screen.getByRole('textbox', { name: 'body' });
