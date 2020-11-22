@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import MockedSocket from 'socket.io-mock';
 import 'regenerator-runtime/runtime.js';
 import { matches } from 'lodash';
+import axios from 'axios';
 
 import init from '../src/init.jsx';
 
@@ -23,6 +24,7 @@ beforeEach(async () => {
   };
 
   socket = new MockedSocket();
+  axios.defaults.baseURL = 'http://localhost:80';
   const vDom = await init(gon, socket.socketClient);
   render(vDom);
   elements.input = screen.getByRole('textbox', { name: 'body' });
@@ -30,7 +32,7 @@ beforeEach(async () => {
 });
 
 test('app', async () => {
-  const scope = nock('http://localhost')
+  const scope = nock('http://localhost:80')
     .post('/api/v1/channels/1/messages', matches({ data: { attributes: { message: 'Hello World!' } } }))
     .reply(200, {});
 
