@@ -1,5 +1,6 @@
 // @ts-check
 import path from 'path';
+import Dotenv from 'dotenv-webpack';
 
 module.exports = {
   devtool: 'source-map',
@@ -20,7 +21,12 @@ module.exports = {
     contentBasePublicPath: '/assets/',
     compress: true,
   },
-  plugins: [],
+  plugins: [
+    new Dotenv({
+      path: './.env',
+      safe: true,
+    }),
+  ],
   module: {
     rules: [
       {

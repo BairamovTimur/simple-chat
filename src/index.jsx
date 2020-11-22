@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const { rollbarToken } = gon;
+const rollbarToken = process.env.ROLLBAR_TOKEN;
 
 const enabledRollbar = (process.env.NODE_ENV === 'production');
 // eslint-disable-next-line no-unused-vars
