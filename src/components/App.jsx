@@ -9,7 +9,7 @@ import Channel from './Channel.jsx';
 import InputForm from './InputForm.jsx';
 import MessageBox from './MessagesBox.jsx';
 import Modal from './Modal.jsx';
-import { actions } from '../slices/index';
+import { actions, appState } from '../slices/index';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ const App = () => {
     <>
       <div className="container h-100 overflow-hidden">
         <div className="h-100">
-          {loaded === 'loaded' ? <Chat /> : <Loader />}
+          {loaded === appState.loaded.value ? <Chat /> : <Loader />}
         </div>
       </div>
     </>

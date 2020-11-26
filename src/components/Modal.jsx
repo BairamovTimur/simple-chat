@@ -12,7 +12,7 @@ import * as yup from 'yup';
 
 import { actions, asyncActions } from '../slices/index';
 
-const getValidateSchema = (channelsName) => yup.object().shape({
+const getValidationSchema = (channelsName) => yup.object().shape({
   channelName: yup.string()
     .min(3)
     .max(20)
@@ -41,12 +41,12 @@ const Add = () => {
   const inputRef = useRef();
 
   const channelsNames = channels.map((channel) => channel.name);
-  const validateSchema = getValidateSchema(channelsNames);
+  const validationSchema = getValidationSchema(channelsNames);
 
   const formik = useFormik({
     onSubmit: handleSubmit(dispatch, modalType, null),
     initialValues: { channelName },
-    validationSchema: validateSchema,
+    validationSchema,
   });
 
   useEffect(() => {
@@ -129,7 +129,7 @@ const Rename = () => {
   const inputRef = useRef();
 
   const channelsNames = channels.map((channel) => channel.name);
-  const validateSchema = getValidateSchema(channelsNames);
+  const validateSchema = getValidationSchema(channelsNames);
 
   const formik = useFormik({
     onSubmit: handleSubmit(dispatch, modalType, channelId),

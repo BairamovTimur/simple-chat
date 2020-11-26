@@ -30,7 +30,6 @@ export default (gon, socket) => {
     channels,
     currentChannelId,
     messages,
-    loaded: 'nonLoaded',
   };
 
   const middleware = getDefaultMiddleware();

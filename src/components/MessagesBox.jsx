@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { scroller } from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 const getMessageChannel = (channelId, messages) => messages
   .filter((message) => message.channelId === channelId);
@@ -20,8 +20,8 @@ const MessagesBox = () => {
   const messages = useSelector((state) => getMessageChannel(currentChannelId, state.messages));
 
   useEffect(() => {
-    scroller.scrollTo('element-for-scrolling', {
-      duration: 800,
+    scroll.scrollToBottom({
+      duration: 100,
       delay: 0,
       smooth: true,
       containerId: 'messages-box',
@@ -33,7 +33,6 @@ const MessagesBox = () => {
       {messages.map(({ id, message, nickName }) => (
         <Message key={id} message={message} nickName={nickName} />
       ))}
-      <div name="element-for-scrolling" />
     </div>
   );
 };

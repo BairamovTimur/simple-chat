@@ -38,6 +38,7 @@
     "cssnano": "^4.1.10",
     "debug": "^4.2.0",
     "dotenv": "^8.2.0",
+    "enum": "^3.0.4",
     "faker": "^5.1.0",
     "fastify": "^3.6.0",
     "fastify-formbody": "^5.0.0",
@@ -57,12 +58,12 @@
     "react-redux": "^7.2.1",
     "react-scroll": "^1.8.1",
     "redux": "^4.0.5",
+    "regenerator-runtime": "^0.13.7",
     "rollbar": "^2.19.4",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.1",
     "validator": "^13.1.17",
-    "yup": "^0.29.3",
-    "regenerator-runtime": "^0.13.7"
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",

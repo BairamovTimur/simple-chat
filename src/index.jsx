@@ -11,17 +11,16 @@ import gon from 'gon';
 import '../assets/application.scss';
 import init from './init.jsx';
 
-if (process.env.NODE_ENV !== 'production') {
+const isProduction = process.env.NODE_ENV === 'production';
+
+if (!isProduction) {
   localStorage.debug = 'chat:*';
 }
 
-const rollbarToken = process.env.ROLLBAR_TOKEN;
-
-const enabledRollbar = (process.env.NODE_ENV === 'production');
 // eslint-disable-next-line no-unused-vars
 const rollbar = new Rollbar({
-  enabled: enabledRollbar,
-  accessToken: rollbarToken,
+  enabled: isProduction,
+  accessToken: process.env.ROLLBAR_TOKEN,
   captureUncaught: true,
   captureUnhandledRejections: true,
 });

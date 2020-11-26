@@ -9,7 +9,7 @@ import channels, {
 } from './channels';
 import currentChannelId, { currentChannelIdActions } from './currentChannelId';
 import modal, { modalActions } from './modal';
-import loaded, { loadedActions } from './loaded';
+import loaded, { loadedActions, appState as appStateStatus } from './loaded';
 
 export default combineReducers({
   messages,
@@ -32,3 +32,5 @@ export const asyncActions = {
   removeChannel,
   renameChannel,
 };
+
+export const appState = appStateStatus;
